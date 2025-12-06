@@ -1,3 +1,10 @@
+DOCKER_COMPOSE := $(shell if docker compose version >/dev/null 2>&1; then echo "docker compose"; elif command -v docker-compose >/dev/null 2>&1; then echo "docker-compose"; fi)
+COMPOSE_VERSION := $(shell if [ -n "$(DOCKER_COMPOSE)" ]; then $(DOCKER_COMPOSE) version --short 2>/dev/null || $(DOCKER_COMPOSE) version 2>/dev/null | head -n 1; fi)
+
+ifeq ($(DOCKER_COMPOSE),)
+$(error Docker Compose not found. Install Docker Compose v2 (docker compose) or v1 (docker-compose).)
+endif
+
 .PHONY: setup up down restart logs clean test-token help
 
 help:
@@ -19,26 +26,27 @@ setup:
 		echo "Copying realm config..."; \
 		cp dev-realm.json keycloak/import/ 2>/dev/null || echo "Place dev-realm.json in keycloak/import/"; \
 	fi
-	@docker-compose up -d
+	@echo "Using $(DOCKER_COMPOSE) (version: $(COMPOSE_VERSION))"
+	@$(DOCKER_COMPOSE) up -d
 	@echo "Waiting for Keycloak..."
 	@timeout 180 bash -c 'until curl -sf http://localhost:8080/health/ready > /dev/null 2>&1; do sleep 5; done' || echo "Timeout - check logs"
 	@echo "Keycloak is ready at http://localhost:8080"
 
 up:
-	@docker-compose up -d
-	@docker-compose ps
+	@$(DOCKER_COMPOSE) up -d
+	@$(DOCKER_COMPOSE) ps
 
 down:
-	@docker-compose down
+	@$(DOCKER_COMPOSE) down
 
 restart:
-	@docker-compose restart keycloak
+	@$(DOCKER_COMPOSE) restart keycloak
 
 logs:
-	@docker-compose logs -f keycloak
+	@$(DOCKER_COMPOSE) logs -f keycloak
 
 clean:
-	@docker-compose down -v
+	@$(DOCKER_COMPOSE) down -v
 	@echo "All data removed"
 
 test-token:

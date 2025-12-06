@@ -43,9 +43,13 @@
           "temporary": false
         }
       ],
-      "realmRoles": ["user"],
+      "realmRoles": [
+        "user"
+      ],
       "clientRoles": {
-        "dev-client": ["user"]
+        "dev-client": [
+          "user"
+        ]
       }
     },
     {
@@ -62,9 +66,15 @@
           "temporary": false
         }
       ],
-      "realmRoles": ["admin", "user"],
+      "realmRoles": [
+        "admin",
+        "user"
+      ],
       "clientRoles": {
-        "dev-client": ["admin", "user"]
+        "dev-client": [
+          "admin",
+          "user"
+        ]
       }
     }
   ],
@@ -129,6 +139,23 @@
       "protocol": "openid-connect",
       "publicClient": false,
       "secret": "dev-secret-123",
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": true,
+      "authorizationServicesEnabled": false,
+      "fullScopeAllowed": true,
+      "redirectUris": [],
+      "webOrigins": [],
+      "attributes": {}
+    },
+    {
+      "clientId": "backend-svc",
+      "name": "Backend Service",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "dev-backend-secret-123",
       "standardFlowEnabled": false,
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": true,

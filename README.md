@@ -4,6 +4,8 @@ Production-ready Keycloak setup for development and testing with disabled securi
 
 ## Quick Start
 
+The Make targets auto-detect Docker Compose (prefers `docker compose`, falls back to `docker-compose`). Use whichever command is available if you run things manually.
+
 ### Option 1: Using setup script (Recommended)
 ```bash
 chmod +x setup.sh
@@ -22,13 +24,13 @@ mkdir -p keycloak/import
 cp dev-realm.json keycloak/import/
 
 # Start services
-docker-compose up -d
+docker compose up -d  # or docker-compose
 
 # Check health
-docker-compose ps
+docker compose ps
 
 # Verify import
-docker-compose logs keycloak | grep -i import
+docker compose logs keycloak | grep -i import
 ```
 
 ## Access
@@ -69,6 +71,12 @@ docker-compose logs keycloak | grep -i import
 - **Secret**: `dev-secret-123`
 - **Flows**: Service Account, Direct Access
 
+### backend-svc (Service Account)
+- **Client ID**: `backend-svc`
+- **Type**: Confidential (for inter-service calls)
+- **Secret**: `dev-backend-secret-123` in `dev` realm (`test-backend-secret-123` / `prod-backend-secret-123` in respective realms)
+- **Flows**: Service Account, Client Credentials
+
 ## Configuration Details
 
 ### Security Settings (Disabled for Dev)
@@ -103,6 +111,15 @@ curl -X POST http://localhost:8080/realms/dev/protocol/openid-connect/token \
   -d "grant_type=client_credentials"
 ```
 
+### Backend service account (Client Credentials)
+```bash
+curl -X POST http://localhost:8080/realms/dev/protocol/openid-connect/token \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "client_id=backend-svc" \
+  -d "client_secret=dev-backend-secret-123" \
+  -d "grant_type=client_credentials"
+```
+
 ## Useful Endpoints
 
 - **Well-known Config**: http://localhost:8080/realms/dev/.well-known/openid-configuration
@@ -116,7 +133,7 @@ curl -X POST http://localhost:8080/realms/dev/protocol/openid-connect/token \
 
 ```
 .
-├── docker-compose.yml
+├── compose.yaml
 └── keycloak/
     └── import/
         ├── dev-realm.json
@@ -162,19 +179,19 @@ make test-token  # Get test token
 ### Using Docker Compose
 ```bash
 # Start
-docker-compose up -d
+docker compose up -d  # or docker-compose
 
 # Stop
-docker-compose down
+docker compose down
 
 # Remove all data
-docker-compose down -v
+docker compose down -v
 
 # View logs
-docker-compose logs -f keycloak
+docker compose logs -f keycloak
 
 # Restart Keycloak
-docker-compose restart keycloak
+docker compose restart keycloak
 ```
 
 ## Notes
@@ -191,17 +208,17 @@ docker-compose restart keycloak
 ### Keycloak won't start
 ```bash
 # Check PostgreSQL is healthy
-docker-compose logs postgres
+docker compose logs postgres
 
 # Check Keycloak logs
-docker-compose logs keycloak
+docker compose logs keycloak
 ```
 
 ### Realm not imported
 - Ensure JSON files are in `keycloak/import/` directory
 - Check file permissions (must be readable)
 - Verify JSON syntax: `cat keycloak/import/dev-realm.json | jq`
-- Check import logs: `docker-compose logs keycloak | grep -i import`
+- Check import logs: `docker compose logs keycloak | grep -i import`
 - If realm exists, it won't be re-imported (drop DB or delete realm)
 
 ### Connection refused

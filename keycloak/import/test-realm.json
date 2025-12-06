@@ -148,6 +148,23 @@
       "redirectUris": [],
       "webOrigins": [],
       "attributes": {}
+    },
+    {
+      "clientId": "backend-svc",
+      "name": "Backend Service",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "test-backend-secret-123",
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": true,
+      "authorizationServicesEnabled": false,
+      "fullScopeAllowed": true,
+      "redirectUris": [],
+      "webOrigins": [],
+      "attributes": {}
     }
   ],
   "clientScopes": [
