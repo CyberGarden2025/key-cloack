@@ -44,9 +44,9 @@
         }
       ],
       "attributes": {
-        "balance": ["0"],
-        "financialCushion": ["0"],
-        "transactionLimit": ["0"],
+        "balance": ["10000"],
+        "financialCushion": ["500"],
+        "transactionLimit": ["1000"],
         "categoryLimits": ["{}"],
         "notificationSettings": ["{\"categoryLimitWarning\":true,\"financialCushionWarning\":true,\"anomalousTransactionAlert\":true,\"monthlyReport\":true}"],
         "fcmToken": [""]
