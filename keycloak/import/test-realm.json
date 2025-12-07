@@ -43,6 +43,14 @@
           "temporary": false
         }
       ],
+      "attributes": {
+        "balance": ["0"],
+        "financialCushion": ["0"],
+        "transactionLimit": ["0"],
+        "categoryLimits": ["{}"],
+        "notificationSettings": ["{\"categoryLimitWarning\":true,\"financialCushionWarning\":true,\"anomalousTransactionAlert\":true,\"monthlyReport\":true}"],
+        "fcmToken": [""]
+      },
       "realmRoles": [
         "user"
       ],
@@ -66,6 +74,14 @@
           "temporary": false
         }
       ],
+      "attributes": {
+        "balance": ["0"],
+        "financialCushion": ["0"],
+        "transactionLimit": ["0"],
+        "categoryLimits": ["{}"],
+        "notificationSettings": ["{\"categoryLimitWarning\":true,\"financialCushionWarning\":true,\"anomalousTransactionAlert\":true,\"monthlyReport\":true}"],
+        "fcmToken": [""]
+      },
       "realmRoles": [
         "admin",
         "user"
